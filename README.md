@@ -2,6 +2,8 @@
 
 Use Inliner.ai image generation directly in Cursor through MCP, with rules/skills/commands that make image workflows clear for both end users and LLMs.
 
+Inliner's core strength is CDN-backed image delivery generated on the fly from intuitive URL patterns, plus robust MCP/CLI integration for structured generate/edit workflows inside real development environments.
+
 ## What This Plugin Includes
 
 - **MCP integration** via `.mcp.json` using `@inliner/mcp-server`
@@ -175,6 +177,14 @@ These command files are intentionally explicit so both users and LLMs can quickl
   - If context is missing, ask whether to edit the previous image or generate a new one
 - **No local output file**
   - Ensure `outputPath` points to a writable location
+
+## Support
+
+For questions or bug reports, contact: `support@inliner.ai`
+
+## Copyright
+
+Copyright Inliner AI
 
 ## License
 
