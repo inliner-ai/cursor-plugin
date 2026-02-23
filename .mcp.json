@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "inliner": {
+      "command": "npx",
+      "args": [
+        "@inliner/mcp-server"
+      ],
+      "env": {
+        "INLINER_API_KEY": "${INLINER_API_KEY}"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "inliner-cursor",
+  "version": "1.0.0",
+  "description": "Inliner.ai image generation integration for Cursor. Generate and edit AI images directly from your code using Model Context Protocol (MCP).",
+  "author": {
+    "name": "Inliner.ai",
+    "email": "support@inliner.ai"
+  },
+  "keywords": [
+    "inliner",
+    "ai-images",
+    "mcp",
+    "image-generation",
+    "image-editing"
+  ],
+  "homepage": "https://inliner.ai",
+  "repository": "https://github.com/inliner-ai/inliner-cursor",
+  "license": "MIT"
+}

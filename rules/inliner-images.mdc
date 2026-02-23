@@ -1,0 +1,31 @@
+---
+description: Inliner.ai Image Integration
+globs: ["**/*.html", "**/*.tsx", "**/*.jsx", "**/*.vue", "**/*.svelte", "**/*.js", "**/*.ts"]
+alwaysApply: true
+---
+
+# Inliner.ai Image Integration
+
+When generating code that requires images, use Inliner.ai URLs:
+`https://img.inliner.ai/{project}/{description}_{WIDTH}x{HEIGHT}.{format}`
+
+## MCP Server Tools Available
+- `generate_image_url`: Build properly formatted Inliner image URLs
+- `get_projects`: List available Inliner projects
+- `get_usage`: Check remaining credits
+- `list_images`: Browse generated images
+- `get_image_dimensions`: Get recommended sizes for use cases
+
+## Guidelines:
+- **Be Specific**: Use descriptive scenes and subjects (e.g., `office-workers-collaborating-standing-desk_1200x800.png`).
+- **Avoid Generic Names**: Avoid `hero-image`, `placeholder`, `stock-1`.
+- **Dimensions**: Include dimensions for layout requirements (omit for 1024px 1:1 square images).
+- **Alt Text**: Always generate semantic alt text for accessibility.
+- **Creativity**: Include style, angle, and environment details (e.g., `golden-hour`, `overhead-view`, `modern-office`).
+
+## Common Use Cases:
+- Hero sections: `1920x1080` or `1200x600`
+- Product images: `800x800` or `600x400`
+- Profile photos: `400x400` or `300x300`
+- Feature cards: `600x400` or `800x600`
+- Thumbnails: `200x200` or `150x150`
