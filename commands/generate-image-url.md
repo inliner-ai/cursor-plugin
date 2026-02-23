@@ -13,3 +13,4 @@ Use this when you want a fast, code-first result.
    - URL
    - HTML `<img>` snippet
    - Suggested alt text
+   - Note that smart slug recommendation is applied by default for concise URLs

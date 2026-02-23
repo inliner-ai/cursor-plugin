@@ -13,3 +13,4 @@ Use this when the user wants a completed generation (not only a URL).
    - generated URL
    - save status and output path (if provided)
    - integration-ready HTML snippet
+   - indicate smart slug behavior (full prompt quality + concise URL path)

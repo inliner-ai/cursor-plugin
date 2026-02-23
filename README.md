@@ -75,6 +75,7 @@ Use when you mainly need image URLs inserted into HTML/CSS/React/Vue code.
 
 - **Tool**: `generate_image_url`
 - **Returns**: URL + HTML snippet
+- **Smart URL behavior**: long prompts are summarized to concise slugs behind the scenes
 - **Best for**: rapid scaffolding, replacing placeholders, template generation
 
 ### 2) Generate-and-Wait (materialized output)
@@ -82,6 +83,7 @@ Use when you want completed generation and optional local file output.
 
 - **Tools**: `generate_image`, `create_image`
 - **Returns**: generated URL, metadata, optional local save path
+- **Smart URL behavior**: generation uses full prompt quality while storing a concise URL slug
 - **Best for**: workflows where generated output must be verified immediately
 
 ### 3) Edit Existing Images
@@ -100,8 +102,8 @@ Use to pick the correct project namespace and monitor quotas/plan.
 ## MCP Tool Index
 
 - `generate_image_url`: Build URL + integration snippet
-- `generate_image`: Generate image and optionally save locally
-- `create_image`: Quick-create image with defaults
+- `generate_image`: Generate image and optionally save locally (smart slug by default)
+- `create_image`: Quick-create image with defaults (smart slug by default)
 - `edit_image`: Transform existing image from URL/path
 - `get_projects`: List account projects
 - `create_project`: Create new project namespace

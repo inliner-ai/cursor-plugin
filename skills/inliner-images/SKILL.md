@@ -23,6 +23,7 @@ description: Generate and integrate Inliner.ai image URLs in code. Use when a re
    - *Example*: `generate_image_url({ project: "my-site", description: "modern-kitchen-interior-warm-lighting", width: 1200, height: 800 })`
 5. **Integrate**: Place resulting URLs in `<img src="...">` or CSS `background-image`.
 6. **Alt Text**: Provide meaningful `alt` text based on subject, context, and use-case.
+7. **Smart URL Awareness**: Prefer smart URL-enabled tools (default) so long prompts map to concise, readable slugs without losing generation quality.
 
 ## Best Practices
 - Prefer realistic, professional imagery over illustrations unless specified.
