@@ -20,6 +20,8 @@ description: Generate and integrate Inliner.ai image URLs in code. Use when a re
    - Use `generate_image_url` for fast code embedding.
    - Use `generate_image` or `create_image` when the user needs completed generation and optional local output.
    - Use `edit_image` for transformations of existing assets.
+   - If user says things like "make it bigger", "resize this", "change this image", "put a hat on him", and a prior image exists in context, default to `edit_image` (not `generate_image`).
+   - Only regenerate when the user explicitly asks for a new image/variation or no source image is available.
 4. **Generate or Edit**:
    - For new images, pass descriptive prompts and dimensions.
    - For edits, pass `sourceUrl`/`sourcePath` + `editInstruction`.
@@ -27,6 +29,9 @@ description: Generate and integrate Inliner.ai image URLs in code. Use when a re
 5. **Integrate**: Place resulting URLs in `<img src="...">` or CSS `background-image`.
 6. **Alt Text**: Provide meaningful `alt` text based on subject, context, and use-case.
 7. **Smart URL Awareness**: Prefer smart URL-enabled tools (default) so long prompts map to concise, readable slugs without losing generation quality.
+8. **Ambiguity Handling**:
+   - If an edit request is ambiguous and no source is known, ask one clarifying question:
+     "Should I edit the previous image, or generate a new one?"
 
 ## Best Practices
 - Prefer realistic, professional imagery over illustrations unless specified.

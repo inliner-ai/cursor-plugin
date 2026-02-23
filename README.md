@@ -105,6 +105,7 @@ Use when you already have a source image (URL or file) and need transformation.
 - **Tool**: `edit_image`
 - **Supports**: instruction-based edits, resize, format output, optional local save
 - **Best for**: variants, style transfer, post-processing
+- **Intent handling**: requests like "make it bigger", "resize this", "change this image" should map to `edit_image` when a prior image exists in context
 
 ### 4) Discovery and Account Context
 Use to pick the correct project namespace and monitor quotas/plan.
@@ -146,6 +147,7 @@ These command files are intentionally explicit so both users and LLMs can quickl
 - "Create a React hero section and use Inliner images for all media."
 - "Generate a 1200x630 social image for a launch announcement in project `marketing-site`."
 - "Edit this existing product image URL to a cleaner studio background and output JPG."
+- "Take the last generated image and resize it to 1200x600."
 - "List my projects and recommend one for homepage assets."
 - "Get recommended dimensions for a YouTube thumbnail and generate one."
 
@@ -167,6 +169,10 @@ These command files are intentionally explicit so both users and LLMs can quickl
 - **Tool call failures**
   - First run `get_projects` and verify namespace
   - Validate dimension bounds before generate/edit calls
+- **Asked for an edit but got a new image**
+  - Include explicit source context (`sourceUrl`, `sourcePath`, or "edit the previous image")
+  - Use phrasing like "edit/resize this image" instead of a standalone generation prompt
+  - If context is missing, ask whether to edit the previous image or generate a new one
 - **No local output file**
   - Ensure `outputPath` points to a writable location
 

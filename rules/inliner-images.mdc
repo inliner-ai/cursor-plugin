@@ -28,6 +28,9 @@ Project preference can be persisted by setting `INLINER_DEFAULT_PROJECT` in `.cu
 - **Dimensions**: Include dimensions for layout requirements (omit for 1024px 1:1 square images).
 - **Alt Text**: Always generate semantic alt text for accessibility.
 - **Creativity**: Include style, angle, and environment details (e.g., `golden-hour`, `overhead-view`, `modern-office`).
+- **Edit Intent Default**: If the user asks to change/resize/modify "this/that/it" and a prior image is available, use `edit_image` by default.
+- **Regeneration Trigger**: Use generation tools only when user explicitly requests a new image/variation or when no source image is available.
+- **Clarify When Needed**: If intent is ambiguous and no source image is in context, ask whether to edit previous image or create a new one.
 
 ## Common Use Cases:
 - Hero sections: `1920x1080` or `1200x600`
