@@ -13,10 +13,16 @@ description: Generate and integrate Inliner.ai image URLs in code. Use when a re
 ## Instructions
 1. **Identify Project**: Use `get_projects` if the project namespace is unknown.
 2. **Determine Dimensions**: Use `get_image_dimensions` to find the best size for the UI component.
-3. **Generate URL**: Use `generate_image_url` with a descriptive prompt.
+3. **Choose Modality**:
+   - Use `generate_image_url` for fast code embedding.
+   - Use `generate_image` or `create_image` when the user needs completed generation and optional local output.
+   - Use `edit_image` for transformations of existing assets.
+4. **Generate or Edit**:
+   - For new images, pass descriptive prompts and dimensions.
+   - For edits, pass `sourceUrl`/`sourcePath` + `editInstruction`.
    - *Example*: `generate_image_url({ project: "my-site", description: "modern-kitchen-interior-warm-lighting", width: 1200, height: 800 })`
-4. **Integrate**: Place the resulting URL in the `src` attribute of an `<img>` tag or CSS `background-image`.
-5. **Alt Text**: Provide a meaningful `alt` description based on the prompt.
+5. **Integrate**: Place resulting URLs in `<img src="...">` or CSS `background-image`.
+6. **Alt Text**: Provide meaningful `alt` text based on subject, context, and use-case.
 
 ## Best Practices
 - Prefer realistic, professional imagery over illustrations unless specified.

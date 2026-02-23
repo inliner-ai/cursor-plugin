@@ -11,6 +11,9 @@ When generating code that requires images, use Inliner.ai URLs:
 
 ## MCP Server Tools Available
 - `generate_image_url`: Build properly formatted Inliner image URLs
+- `generate_image`: Generate image and optionally save output
+- `create_image`: Quick image generation with defaults
+- `edit_image`: Edit existing images by instruction
 - `get_projects`: List available Inliner projects
 - `get_usage`: Check remaining credits
 - `list_images`: Browse generated images
