@@ -14,6 +14,7 @@
     "image-editing"
   ],
   "homepage": "https://inliner.ai",
-  "repository": "https://github.com/inliner-ai/inliner-cursor",
+  "repository": "https://github.com/inliner-ai/cursor-plugin",
+  "logo": "https://inliner.ai/image/inliner-doublebranding-croptocontent-gradientbox.png",
   "license": "MIT"
 }
