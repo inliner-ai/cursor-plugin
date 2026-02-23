@@ -1,8 +1,8 @@
 # Inliner.ai Cursor Plugin
 
-Use Inliner.ai image generation directly in Cursor through MCP, with rules/skills/commands that make image workflows clear for both end users and LLMs.
+Generate and edit Inliner.ai images directly inside Cursor with MCP-powered tools, practical command workflows, and clear guidance for both users and AI assistants.
 
-Inliner's core strength is CDN-backed image delivery generated on the fly from intuitive URL patterns, plus robust MCP/CLI integration for structured generate/edit workflows inside real development environments.
+Inliner's core strength is CDN-backed image delivery generated on demand from intuitive URL patterns, combined with robust MCP/CLI integration for reliable local file generation and edit workflows.
 
 ## What This Plugin Includes
 
@@ -14,9 +14,20 @@ Inliner's core strength is CDN-backed image delivery generated on the fly from i
 ## Why This Is Useful
 
 - Keeps image generation inside your coding workflow
+- Supports both CDN-backed image URLs and local generated/edited files
 - Helps models pick the right image modality (URL-first vs generate-now vs edit)
 - Makes project namespace discovery and usage checks easy
 - Improves consistency of dimensions, prompts, and alt text in generated code
+
+## Inliner AI for Dummies
+
+If you only remember one thing: describe what you want, and Inliner can give you either a ready-to-use CDN URL or a generated/edited local file.
+
+1. Set your API key (`INLINER_API_KEY`).
+2. Ask Cursor to run `get_projects` and pick a project.
+3. For new images, use `generate_image_url` (quick URL) or `generate_image` (wait + optional local file).
+4. For changes to an existing image, use `edit_image` with `sourceUrl` or `sourcePath`.
+5. If you say "resize this" and nothing is selected, clarify whether to edit the previous image or generate a new one.
 
 ## Installation and Setup
 
