@@ -19,7 +19,7 @@ Use Inliner.ai image generation directly in Cursor through MCP, with rules/skill
 ## Installation and Setup
 
 1. **Get API key**
-   - Sign in to [Inliner.ai](https://inliner.ai)
+   - Sign in to [Inliner App](https://app.inliner.ai/)
    - Go to `Account -> API Keys`
    - Create/copy your key
 2. **Ensure `npx` access**
@@ -43,6 +43,18 @@ Use Inliner.ai image generation directly in Cursor through MCP, with rules/skill
   }
 }
 ```
+
+## Account Setup (Direct Links)
+
+If you do not already have an Inliner account:
+
+1. Register: [https://app.inliner.ai/register](https://app.inliner.ai/register)
+2. Log in: [https://app.inliner.ai/](https://app.inliner.ai/)
+3. Create an API key: `Account -> API Keys`
+4. Create at least one project namespace (or use `create_project` from MCP)
+5. Return to Cursor and run:
+   - `get_projects`
+   - `get_usage`
 
 ## Quick Validation (2 minutes)
 
