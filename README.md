@@ -157,6 +157,43 @@ These command files are intentionally explicit so both users and LLMs can quickl
 - [x] No literal key leaks in plugin files
 - [x] README includes setup, capabilities, and validation flow
 
+## For Marketplace Reviewers
+
+### Architecture at a Glance
+
+```mermaid
+flowchart LR
+  userPrompt[UserPromptInCursor]
+  pluginAssets[PluginAssetsRulesSkillsCommands]
+  mcpConfig[McpConfigDotMcpJson]
+  inlinerMcp[InlinerMcpServerNpx]
+  inlinerApi[InlinerApiAndImageCdn]
+  response[StructuredToolOutputsUrlsHtmlMetadata]
+
+  userPrompt --> pluginAssets
+  pluginAssets --> mcpConfig
+  mcpConfig --> inlinerMcp
+  inlinerMcp --> inlinerApi
+  inlinerApi --> response
+```
+
+### Reviewer Test Plan
+
+1. Install plugin from repository and restart Cursor.
+2. Confirm MCP server `inliner` is loaded.
+3. Run `get_projects` and `get_usage` (account context path).
+4. Run `generate_image_url` and verify URL + HTML snippet output.
+5. Run `create_image` or `generate_image` and verify completion metadata.
+6. Run `edit_image` with a known source and verify transformed result metadata.
+7. Confirm command workflows and rule/skill guidance are discoverable and coherent.
+8. Verify no credentials are embedded in plugin files.
+
+### Security and Data Notes
+
+- Plugin stores no API keys in repository content.
+- Authentication is environment-based (`INLINER_API_KEY`).
+- Tool calls are made through MCP server boundaries, not direct embedded secrets.
+
 ## License
 
 MIT
