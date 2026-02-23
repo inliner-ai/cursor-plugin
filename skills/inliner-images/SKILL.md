@@ -12,6 +12,9 @@ description: Generate and integrate Inliner.ai image URLs in code. Use when a re
 
 ## Instructions
 1. **Identify Project**: Use `get_projects` if the project namespace is unknown.
+   - Ask the user whether to use an existing project or create a new one.
+   - If they want a new one, call `create_project`.
+   - Ask whether they want to persist the selected project in Cursor settings via `INLINER_DEFAULT_PROJECT`.
 2. **Determine Dimensions**: Use `get_image_dimensions` to find the best size for the UI component.
 3. **Choose Modality**:
    - Use `generate_image_url` for fast code embedding.

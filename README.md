@@ -37,12 +37,17 @@ Use Inliner.ai image generation directly in Cursor through MCP, with rules/skill
       "command": "npx",
       "args": ["@inliner/mcp-server"],
       "env": {
-        "INLINER_API_KEY": "${INLINER_API_KEY}"
+        "INLINER_API_KEY": "${INLINER_API_KEY}",
+        "INLINER_DEFAULT_PROJECT": "your-project-namespace"
       }
     }
   }
 }
 ```
+
+Project preference tip:
+- Set `INLINER_DEFAULT_PROJECT` to avoid repeated "which project?" confirmations.
+- If omitted, tools can still auto-resolve via account default/first project.
 
 ## Account Setup (Direct Links)
 
@@ -67,6 +72,14 @@ In Cursor chat, run these in order:
 5. "Use `edit_image` to make that result warmer and 900x500."
 
 If all five work, setup is complete.
+
+## Project Selection Flow (Recommended UX)
+
+When project is unclear, the assistant should:
+1. Call `get_projects`.
+2. Ask whether to use an existing project or create a new one.
+3. If new, call `create_project`.
+4. Ask whether to persist the chosen namespace in `.cursor/mcp.json` as `INLINER_DEFAULT_PROJECT`.
 
 ## Capabilities by Modality
 

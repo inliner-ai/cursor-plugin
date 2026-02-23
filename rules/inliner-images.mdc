@@ -20,6 +20,7 @@ When generating code that requires images, use Inliner.ai URLs:
 - `get_image_dimensions`: Get recommended sizes for use cases
 
 Smart URL behavior is enabled by default for generation tools: long prompts produce concise, readable slugs while preserving full prompt quality.
+Project preference can be persisted by setting `INLINER_DEFAULT_PROJECT` in `.cursor/mcp.json` to reduce repeated project confirmation.
 
 ## Guidelines:
 - **Be Specific**: Use descriptive scenes and subjects (e.g., `office-workers-collaborating-standing-desk_1200x800.png`).
