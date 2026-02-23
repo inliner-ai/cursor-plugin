@@ -144,19 +144,19 @@ These command files are intentionally explicit so both users and LLMs can quickl
 
 ## Prompt Examples (End Users)
 
-- "Create a React hero section and use Inliner images for all media."
-- "Generate a 1200x630 social image for a launch announcement in project `marketing-site`."
-- "Edit this existing product image URL to a cleaner studio background and output JPG."
-- "Take the last generated image and resize it to 1200x600."
-- "List my projects and recommend one for homepage assets."
-- "Get recommended dimensions for a YouTube thumbnail and generate one."
+- "Generate a 1200x630 PNG in project `marketing-site` for a product launch post: dark gradient background, floating browser mockup, headline area with high contrast, no people."
+- "Create a SaaS homepage hero image URL in project `web-app`: 1440x900, modern office at golden hour, two founders reviewing analytics on a laptop, realistic photo style."
+- "Edit this image URL `https://img.inliner.ai/product-catalog/minimalist-headphones-white-background_800x800.png`: keep product angle, add soft shadow, switch to warm studio lighting, output JPG 1000x1000."
+- "Edit the previous image (do not generate a new one): resize to 1200x600, preserve subject framing, and keep the same color tone."
+- "Use `get_projects`, then recommend which namespace is best for ecommerce PDP assets vs social campaign assets based on naming and existing images."
+- "Get recommended dimensions for `youtube`, then generate a 1280x720 image in project `creator-brand`: presenter on left, bold empty text area on right, vibrant but clean background."
 
 ## Prompt Examples (LLM-System Friendly)
 
-- "Use `get_projects` first, then choose the default project and call `generate_image_url` for `modern-saas-dashboard-team-collaboration`, width 1200, height 600, format png. Return URL and HTML."
-- "Call `generate_image` with project `product-catalog`, description `minimalist-wireless-headphones-on-white-background`, width 800, height 800, format png, outputPath `./assets/headphones.png`."
-- "Call `edit_image` with sourcePath `./assets/headphones.png`, project `product-catalog`, editInstruction `add-soft-shadow-and-warmer-lighting`, width 900, height 900, format png, outputPath `./assets/headphones-v2.png`."
-- "Call `get_image_dimensions` for `hero`, then call `create_image` with one recommended size and return rationale."
+- "Call `get_projects`, select `marketing-site`, then call `generate_image_url` with description `launch-campaign-neon-gradient-product-mockup-no-people`, width 1200, height 630, format png. Return URL + HTML + alt text."
+- "Call `generate_image` with project `product-catalog`, description `premium-wireless-headphones-on-matte-stone-surface-soft-shadow`, width 1000, height 1000, format jpg, outputPath `./assets/pdp/headphones-main.jpg`."
+- "Call `edit_image` with sourceUrl `https://img.inliner.ai/product-catalog/premium-wireless-headphones-on-matte-stone-surface-soft-shadow_1000x1000.jpg`, editInstruction `keep product position, brighten highlights, remove dust artifacts, output ecommerce-ready`, width 1000, height 1000, format jpg, outputPath `./assets/pdp/headphones-main-retouched.jpg`."
+- "Call `get_image_dimensions` for `youtube`, then call `create_image` in project `creator-brand` with width 1280, height 720 and description `tech-tutorial-thumbnail-host-left-clean-text-space-right-electric-blue-background`; return why this size was chosen."
 
 ## Troubleshooting
 
@@ -175,57 +175,6 @@ These command files are intentionally explicit so both users and LLMs can quickl
   - If context is missing, ask whether to edit the previous image or generate a new one
 - **No local output file**
   - Ensure `outputPath` points to a writable location
-
-## Security Notes
-
-- This plugin stores no API keys in-repo.
-- Use environment variables for credentials.
-- Avoid committing local `.env` files or shell history with keys.
-
-## Marketplace Readiness Checklist
-
-- [x] Valid `.cursor-plugin/plugin.json`
-- [x] MCP config included (`.mcp.json`)
-- [x] Rules, skills, commands present with frontmatter
-- [x] No literal key leaks in plugin files
-- [x] README includes setup, capabilities, and validation flow
-
-## For Marketplace Reviewers
-
-### Architecture at a Glance
-
-```mermaid
-flowchart LR
-  userPrompt[UserPromptInCursor]
-  pluginAssets[PluginAssetsRulesSkillsCommands]
-  mcpConfig[McpConfigDotMcpJson]
-  inlinerMcp[InlinerMcpServerNpx]
-  inlinerApi[InlinerApiAndImageCdn]
-  response[StructuredToolOutputsUrlsHtmlMetadata]
-
-  userPrompt --> pluginAssets
-  pluginAssets --> mcpConfig
-  mcpConfig --> inlinerMcp
-  inlinerMcp --> inlinerApi
-  inlinerApi --> response
-```
-
-### Reviewer Test Plan
-
-1. Install plugin from repository and restart Cursor.
-2. Confirm MCP server `inliner` is loaded.
-3. Run `get_projects` and `get_usage` (account context path).
-4. Run `generate_image_url` and verify URL + HTML snippet output.
-5. Run `create_image` or `generate_image` and verify completion metadata.
-6. Run `edit_image` with a known source and verify transformed result metadata.
-7. Confirm command workflows and rule/skill guidance are discoverable and coherent.
-8. Verify no credentials are embedded in plugin files.
-
-### Security and Data Notes
-
-- Plugin stores no API keys in repository content.
-- Authentication is environment-based (`INLINER_API_KEY`).
-- Tool calls are made through MCP server boundaries, not direct embedded secrets.
 
 ## License
 
