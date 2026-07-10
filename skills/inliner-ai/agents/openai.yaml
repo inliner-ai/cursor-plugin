@@ -1,0 +1,4 @@
+interface:
+  display_name: "Inliner.ai"
+  short_description: "Generate and manage hosted AI images"
+  default_prompt: "Use $inliner-ai to create and integrate a hosted visual asset for this project."

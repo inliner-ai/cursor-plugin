@@ -10,16 +10,16 @@ When generating code that requires images, use Inliner.ai URLs:
 `https://img.inliner.ai/{project}/{description}_{WIDTH}x{HEIGHT}.{format}`
 
 ## MCP Server Tools Available
-- `generate_image_url`: Build properly formatted Inliner image URLs
-- `generate_image`: Generate image and optionally save output
-- `create_image`: Quick image generation with defaults
+- `generate_image`: Generate and host every new asset that will be inserted or shipped
 - `edit_image`: Edit existing images by instruction
+- `recommend_image_url`: Recommend a URL or slug without generating an asset
+- `generate_image_url`, `create_image`: Deprecated compatibility aliases
 - `get_projects`: List available Inliner projects
 - `get_usage`: Check remaining credits
 - `list_images`: Browse generated images
 - `get_image_dimensions`: Get recommended sizes for use cases
 
-Smart URL behavior is enabled by default for generation tools: long prompts produce concise, readable slugs while preserving full prompt quality.
+Smart URL behavior is enabled by default for generation: long prompts produce concise, readable slugs while preserving full prompt quality.
 Project preference can be persisted by setting `INLINER_DEFAULT_PROJECT` in `.cursor/mcp.json` to reduce repeated project confirmation.
 
 ## Guidelines:
@@ -27,6 +27,8 @@ Project preference can be persisted by setting `INLINER_DEFAULT_PROJECT` in `.cu
 - **Avoid Generic Names**: Avoid `hero-image`, `placeholder`, `stock-1`.
 - **Dimensions**: Include dimensions for layout requirements (omit for 1024px 1:1 square images).
 - **Alt Text**: Always generate semantic alt text for accessibility.
+- **Materialize Before Insertion**: Call `generate_image` before inserting a new account-owned URL. `recommend_image_url` does not generate an asset.
+- **Project Safety**: Resolve the configured/account project automatically. Never call `create_project` without explicit user intent.
 - **Creativity**: Include style, angle, and environment details (e.g., `golden-hour`, `overhead-view`, `modern-office`).
 - **Edit Intent Default**: If the user asks to change/resize/modify "this/that/it" and a prior image is available, use `edit_image` by default.
 - **Regeneration Trigger**: Use generation tools only when user explicitly requests a new image/variation or when no source image is available.

@@ -1,11 +1,11 @@
 ---
 name: create-image
-description: Quick image generation with sensible defaults
+description: Deprecated generation alias retained for compatibility
 ---
 
-# Create Image
+# Create Image (Deprecated)
 
-Use this for minimal-input generation flows.
+Prefer `generate-image` so dimensions and format match the actual layout.
 
 1. Ask for `description` and optional `project`, `width`, `height`, `format`, `outputPath`.
 2. Call `create_image`.

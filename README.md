@@ -1,202 +1,68 @@
-# Inliner.ai Cursor Plugin
+# Inliner.ai Cursor plugin
 
-Generate and edit Inliner.ai images directly inside Cursor with MCP-powered tools, practical command workflows, and clear guidance for both users and AI assistants.
+Generate, edit, host, and manage Inliner.ai visual assets inside Cursor. The plugin bundles the canonical `inliner-ai` skill, MCP configuration, Cursor rules, and explicit command workflows.
 
-Inliner's core strength is CDN-backed image delivery generated on demand from intuitive URL patterns, combined with robust MCP/CLI integration for reliable local file generation and edit workflows.
+## Setup
 
-## What This Plugin Includes
+1. Create an API key under **Account > API Keys** at [app.inliner.ai](https://app.inliner.ai).
+2. Set `INLINER_API_KEY` in the environment Cursor inherits.
+3. Optionally set `INLINER_DEFAULT_PROJECT` in `.mcp.json`.
+4. Restart Cursor so it reloads the MCP configuration.
 
-- **MCP integration** via `.mcp.json` using `@inliner/mcp-server`
-- **Rule guidance** in `rules/inliner-images.mdc` for consistent URL/image behavior in code generation
-- **Skill guidance** in `skills/inliner-images/SKILL.md` for modality selection and best practices
-- **Command workflows** in `commands/*.md` for common actions (generate/edit/list/usage/projects)
+The bundled server configuration runs:
 
-## Why This Is Useful
-
-- Keeps image generation inside your coding workflow
-- Supports both CDN-backed image URLs and local generated/edited files
-- Helps models pick the right image modality (URL-first vs generate-now vs edit)
-- Makes project namespace discovery and usage checks easy
-- Improves consistency of dimensions, prompts, and alt text in generated code
-
-## Inliner AI for Dummies
-
-If you only remember one thing: describe what you want, and Inliner can give you either a ready-to-use CDN URL or a generated/edited local file.
-
-1. Set your API key (`INLINER_API_KEY`).
-2. Ask Cursor to run `get_projects` and pick a project.
-3. For new images, use `generate_image_url` (quick URL) or `generate_image` (wait + optional local file).
-4. For changes to an existing image, use `edit_image` with `sourceUrl` or `sourcePath`.
-5. If you say "resize this" and nothing is selected, clarify whether to edit the previous image or generate a new one.
-
-## Installation and Setup
-
-1. **Get API key**
-   - Sign in to [Inliner App](https://app.inliner.ai/)
-   - Go to `Account -> API Keys`
-   - Create/copy your key
-2. **Ensure `npx` access**
-   - Confirm your environment can execute `npx @inliner/mcp-server`
-3. **Set env var**
-   - Set `INLINER_API_KEY` in your shell/OS
-4. **Restart Cursor**
-   - Restart so MCP config is reloaded
-5. **Verify `.mcp.json`**
-
-```json
-{
-  "mcpServers": {
-    "inliner": {
-      "command": "npx",
-      "args": ["@inliner/mcp-server"],
-      "env": {
-        "INLINER_API_KEY": "${INLINER_API_KEY}",
-        "INLINER_DEFAULT_PROJECT": "your-project-namespace"
-      }
-    }
-  }
-}
+```bash
+npx -y @inliner/mcp-server
 ```
 
-Project preference tip:
-- Set `INLINER_DEFAULT_PROJECT` to avoid repeated "which project?" confirmations.
-- If omitted, tools can still auto-resolve via account default/first project.
+If no project is supplied, the server resolves the configured default, account default, or first project. It creates a project only when the user explicitly requests one.
 
-## Account Setup (Direct Links)
+## Agent workflow
 
-If you do not already have an Inliner account:
+- New asset to insert or ship: call `generate_image` and wait for the completed CDN URL.
+- Existing asset to change: call `edit_image` with `sourceUrl` or `sourcePath`.
+- URL naming only: call `recommend_image_url`; it reports `generated: false`.
+- Existing generated Inliner URL: reuse it directly.
+- `generate_image_url` and `create_image`: deprecated compatibility aliases.
 
-1. Register: [https://app.inliner.ai/register](https://app.inliner.ai/register)
-2. Log in: [https://app.inliner.ai/](https://app.inliner.ai/)
-3. Create an API key: `Account -> API Keys`
-4. Create at least one project namespace (or use `create_project` from MCP)
-5. Return to Cursor and run:
-   - `get_projects`
-   - `get_usage`
+Generation and editing consume the corresponding account credits. URL recommendation and discovery tools do not generate an asset.
 
-## Quick Validation (2 minutes)
+## Included components
 
-In Cursor chat, run these in order:
+- `.mcp.json`: local `@inliner/mcp-server` configuration
+- `skills/inliner-ai/`: canonical cross-agent skill synchronized from `inliner-ai/agent-skill`
+- `rules/inliner-images.mdc`: always-available Cursor guidance
+- `commands/`: explicit generation, editing, recommendation, project, image, plan, and usage workflows
 
-1. "Use `get_projects` and show me my project namespaces."
-2. "Use `get_usage` and summarize remaining usage."
-3. "Use `generate_image_url` for a hero image, 1200x600, PNG."
-4. "Use `generate_image` for a product image and save it to `./tmp/product.png`."
-5. "Use `edit_image` to make that result warmer and 900x500."
+## Quick verification
 
-If all five work, setup is complete.
+Ask Cursor, in order:
 
-## Project Selection Flow (Recommended UX)
+1. “List my Inliner project namespaces.”
+2. “Show my remaining Inliner usage.”
+3. “Generate and host a 1200x600 hero image for this page, then insert the completed URL.”
+4. “Edit that image to make the lighting warmer.”
+5. “Recommend a different URL slug without generating another image.”
 
-When project is unclear, the assistant should:
-1. Call `get_projects`.
-2. Ask whether to use an existing project or create a new one.
-3. If new, call `create_project`.
-4. Ask whether to persist the chosen namespace in `.cursor/mcp.json` as `INLINER_DEFAULT_PROJECT`.
+The third request should call `generate_image`, the fourth `edit_image`, and the fifth `recommend_image_url`.
 
-## Capabilities by Modality
+## Commands
 
-### 1) URL-First (fastest code integration)
-Use when you mainly need image URLs inserted into HTML/CSS/React/Vue code.
-
-- **Tool**: `generate_image_url`
-- **Returns**: URL + HTML snippet
-- **Smart URL behavior**: long prompts are summarized to concise slugs behind the scenes
-- **Best for**: rapid scaffolding, replacing placeholders, template generation
-
-### 2) Generate-and-Wait (materialized output)
-Use when you want completed generation and optional local file output.
-
-- **Tools**: `generate_image`, `create_image`
-- **Returns**: generated URL, metadata, optional local save path
-- **Smart URL behavior**: generation uses full prompt quality while storing a concise URL slug
-- **Best for**: workflows where generated output must be verified immediately
-
-### 3) Edit Existing Images
-Use when you already have a source image (URL or file) and need transformation.
-
-- **Tool**: `edit_image`
-- **Supports**: instruction-based edits, resize, format output, optional local save
-- **Best for**: variants, style transfer, post-processing
-- **Intent handling**: requests like "make it bigger", "resize this", "change this image" should map to `edit_image` when a prior image exists in context
-
-### 4) Discovery and Account Context
-Use to pick the correct project namespace and monitor quotas/plan.
-
-- **Tools**: `get_projects`, `create_project`, `get_project_details`, `get_usage`, `get_current_plan`, `list_images`, `get_image_dimensions`
-- **Best for**: onboarding, account debugging, project-aware generation
-
-## MCP Tool Index
-
-- `generate_image_url`: Build URL + integration snippet
-- `generate_image`: Generate image and optionally save locally (smart slug by default)
-- `create_image`: Quick-create image with defaults (smart slug by default)
-- `edit_image`: Transform existing image from URL/path
-- `get_projects`: List account projects
-- `create_project`: Create new project namespace
-- `get_project_details`: Read project config/details
-- `get_usage`: Read usage metrics/credits
-- `get_current_plan`: Read current plan and allocations
-- `list_images`: Browse existing generated images
-- `get_image_dimensions`: Get recommended dimensions by use case
-
-## Command Workflows Included
-
-- `check-usage`
-- `list-projects`
-- `generate-image-url`
-- `generate-image`
-- `create-image`
-- `edit-image`
-- `list-images`
-- `get-image-dimensions`
-- `create-project`
-- `get-current-plan`
-
-These command files are intentionally explicit so both users and LLMs can quickly discover "what to run for what."
-
-## Prompt Examples (End Users)
-
-- "Generate a 1200x630 PNG in project `marketing-site` for a product launch post: dark gradient background, floating browser mockup, headline area with high contrast, no people."
-- "Create a SaaS homepage hero image URL in project `web-app`: 1440x900, modern office at golden hour, two founders reviewing analytics on a laptop, realistic photo style."
-- "Edit this image URL `https://img.inliner.ai/product-catalog/minimalist-headphones-white-background_800x800.png`: keep product angle, add soft shadow, switch to warm studio lighting, output JPG 1000x1000."
-- "Edit the previous image (do not generate a new one): resize to 1200x600, preserve subject framing, and keep the same color tone."
-- "Use `get_projects`, then recommend which namespace is best for ecommerce PDP assets vs social campaign assets based on naming and existing images."
-- "Get recommended dimensions for `youtube`, then generate a 1280x720 image in project `creator-brand`: presenter on left, bold empty text area on right, vibrant but clean background."
-
-## Prompt Examples (LLM-System Friendly)
-
-- "Call `get_projects`, select `marketing-site`, then call `generate_image_url` with description `launch-campaign-neon-gradient-product-mockup-no-people`, width 1200, height 630, format png. Return URL + HTML + alt text."
-- "Call `generate_image` with project `product-catalog`, description `premium-wireless-headphones-on-matte-stone-surface-soft-shadow`, width 1000, height 1000, format jpg, outputPath `./assets/pdp/headphones-main.jpg`."
-- "Call `edit_image` with sourceUrl `https://img.inliner.ai/product-catalog/premium-wireless-headphones-on-matte-stone-surface-soft-shadow_1000x1000.jpg`, editInstruction `keep product position, brighten highlights, remove dust artifacts, output ecommerce-ready`, width 1000, height 1000, format jpg, outputPath `./assets/pdp/headphones-main-retouched.jpg`."
-- "Call `get_image_dimensions` for `youtube`, then call `create_image` in project `creator-brand` with width 1280, height 720 and description `tech-tutorial-thumbnail-host-left-clean-text-space-right-electric-blue-background`; return why this size was chosen."
+- `generate-image`: generate and host a completed new asset
+- `edit-image`: edit an explicit existing source
+- `recommend-image-url`: recommend naming without generation
+- `generate-image-url`: deprecated recommendation alias
+- `create-image`: deprecated generation alias
+- `list-projects`, `create-project`
+- `list-images`, `get-image-dimensions`
+- `check-usage`, `get-current-plan`
 
 ## Troubleshooting
 
-- **MCP server not visible**
-  - Restart Cursor after config/env changes
-  - Ensure `.mcp.json` is at plugin root
-- **Auth errors**
-  - Confirm `INLINER_API_KEY` is set and valid
-  - If interpolation is not supported in your runtime, set key directly in Cursor MCP server settings
-- **Tool call failures**
-  - First run `get_projects` and verify namespace
-  - Validate dimension bounds before generate/edit calls
-- **Asked for an edit but got a new image**
-  - Include explicit source context (`sourceUrl`, `sourcePath`, or "edit the previous image")
-  - Use phrasing like "edit/resize this image" instead of a standalone generation prompt
-  - If context is missing, ask whether to edit the previous image or generate a new one
-- **No local output file**
-  - Ensure `outputPath` points to a writable location
+- Restart Cursor after MCP or environment changes.
+- Verify `INLINER_API_KEY` is visible to Cursor.
+- Run `get_projects` if automatic project resolution fails.
+- Provide explicit source context for edits.
+- Do not insert a newly recommended account URL until `generate_image` has completed it.
 
-## Support
-
-For questions or bug reports, contact: `support@inliner.ai`
-
-## Copyright
-
-Copyright Inliner AI
-
-## License
-
-MIT
+Support: support@inliner.ai

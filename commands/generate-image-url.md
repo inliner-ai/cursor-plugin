@@ -1,11 +1,11 @@
 ---
 name: generate-image-url
-description: Build an Inliner image URL and ready-to-use HTML snippet
+description: Deprecated URL-recommendation alias; do not use for completed assets
 ---
 
-# Generate Image URL
+# Generate Image URL (Deprecated)
 
-Use this when you want a fast, code-first result.
+Use `recommend-image-url` instead. This compatibility workflow recommends a URL but does not generate an image.
 
 1. Ask for `project`, `description`, `width`, `height`, and optional `format`.
 2. Call `generate_image_url`.
@@ -13,4 +13,6 @@ Use this when you want a fast, code-first result.
    - URL
    - HTML `<img>` snippet
    - Suggested alt text
-   - Note that smart slug recommendation is applied by default for concise URLs
+   - An explicit warning that the asset was not generated
+
+For an asset that will be inserted or shipped, call `generate_image` instead.

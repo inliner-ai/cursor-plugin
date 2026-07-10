@@ -1,0 +1,17 @@
+name: Validate Cursor integration
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npx -y skills-ref validate skills/inliner-ai
+      - run: node -e "for (const file of ['.cursor-plugin/plugin.json','.mcp.json']) JSON.parse(require('fs').readFileSync(file, 'utf8'))"

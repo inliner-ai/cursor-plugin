@@ -1,11 +1,11 @@
 ---
 name: generate-image
-description: Generate an image and optionally save it to a local path
+description: Generate and host a completed image and optionally save it locally
 ---
 
 # Generate Image
 
-Use this when the user wants a completed generation (not only a URL).
+Use this for every new asset that will be inserted, shipped, or verified. The operation consumes generation credits.
 
 1. Collect `project`, `description`, `width`, `height`, and optional `format`/`outputPath`.
 2. Call `generate_image`.
